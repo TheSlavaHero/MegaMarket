@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class Runner {
 
 //    @Override
 @Scheduled(cron = "0 0 * * * *")
-    public void run() throws Exception {
+    public void run() {
         try (ChromeDriverLauncher launcher = new ChromeDriverLauncher(chromeOptions)) {
             sheetController.getAmountOfOccupiedColumns();
             List<String> productNames = sheetController.getAllProductNames();
@@ -65,9 +66,10 @@ public class Runner {
                 number++;
             }
             sheetController.writeAllPrices(prices);
-
+        } catch (GeneralSecurityException | IOException e) {
+            e.printStackTrace();
         }
-    }
+}
 
     public static void saveFile(String pageSource, String filePath) {
         File file = new File(filePath);

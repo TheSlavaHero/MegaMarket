@@ -1,0 +1,10 @@
+src/main/resources
+target
+tokens
+AI.iml
+GoogleSheets.iml
+HELP.md
+mvnw
+mvnw.cmd
+.mvn
+.idea
