@@ -3,7 +3,7 @@ package com.gmail.theslavahero.ai;
 import com.gmail.theslavahero.ai.exception.ElementNotFoundException;
 import com.gmail.theslavahero.ai.googleSheets.GoogleSheetController;
 import com.gmail.theslavahero.ai.scraper.PriceScraper;
-import com.gmail.theslavahero.ai.utils.ChromeDriverLauncher;
+import com.gmail.theslavahero.ai.utils.RemoteWebDriverProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
@@ -44,7 +44,7 @@ public class Runner implements ApplicationRunner {
 
     @Override//@Scheduled(cron = "0 0 * * * *")
     public void run(ApplicationArguments args) {
-        try (ChromeDriverLauncher launcher = new ChromeDriverLauncher(chromeOptions)) {
+        try (RemoteWebDriverProvider launcher = new RemoteWebDriverProvider(chromeOptions)) {
             List<String> productNames = sheetController.getAllProductNames();
             List<String> prices = new java.util.ArrayList<>(Collections.emptyList());
             WebDriver webDriver = launcher.getWebDriver();
