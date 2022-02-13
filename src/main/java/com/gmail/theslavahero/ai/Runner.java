@@ -12,8 +12,9 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -35,17 +36,15 @@ import static com.gmail.theslavahero.ai.utils.WebDriverUtils.findWebElementBy;
 @EnableScheduling
 //@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
-public class Runner {
+public class Runner implements ApplicationRunner {
 
     private final ChromeOptions chromeOptions;
     private final PriceScraper scraper;
     private final GoogleSheetController sheetController;
 
-//    @Override
-@Scheduled(cron = "0 0 * * * *")
-    public void run() {
+    @Override//@Scheduled(cron = "0 0 * * * *")
+    public void run(ApplicationArguments args) {
         try (ChromeDriverLauncher launcher = new ChromeDriverLauncher(chromeOptions)) {
-            sheetController.getAmountOfOccupiedColumns();
             List<String> productNames = sheetController.getAllProductNames();
             List<String> prices = new java.util.ArrayList<>(Collections.emptyList());
             WebDriver webDriver = launcher.getWebDriver();
@@ -69,7 +68,7 @@ public class Runner {
         } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
         }
-}
+    }
 
     public static void saveFile(String pageSource, String filePath) {
         File file = new File(filePath);

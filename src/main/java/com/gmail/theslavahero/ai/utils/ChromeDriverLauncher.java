@@ -29,12 +29,6 @@ public class ChromeDriverLauncher implements AutoCloseable {
         webDriver.close();
     }
     private ChromeDriver createChromeDriver(ChromeOptions options) {
-//        ChromeDriver chromeDriver;
-//        try {
-//            chromeDriver = new ChromeDriver(options);
-//        } catch (WebDriverException e) {
-//            return createChromeDriver(options);
-//        }
         return new ChromeDriver(options);
     }
 }

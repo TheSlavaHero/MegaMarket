@@ -73,6 +73,7 @@ public class GoogleSheetController {
     }
 
     public void writeAllPrices(List<String> prices) throws IOException, GeneralSecurityException {
+        log.info("Writing all prices, {} in total", prices.size());
         List<List<Object>> values = new java.util.ArrayList<>(Collections.emptyList());
 
         List<Object> singletonDateList = Collections.singletonList(getCurrentDate());
@@ -82,7 +83,10 @@ public class GoogleSheetController {
             List<Object> singletonPriceList = Collections.singletonList(price);
             values.add(singletonPriceList);
         }
-        String letter = numberOfLetter(getAmountOfOccupiedColumns() + 1);
+        int amountOfOccupiedColumns = getAmountOfOccupiedColumns();
+        log.info("Amount of detected occupied columns in google sheets: {}", amountOfOccupiedColumns);
+        String letter = numberOfLetter(amountOfOccupiedColumns + 1);
+        log.info("Writing all data into column with letter: \"{}\"", letter);
         String range = letter + "1:" + letter + "200";
         ValueRange body = new ValueRange()
                 .setValues(values);
@@ -90,7 +94,8 @@ public class GoogleSheetController {
                 sheetsService.spreadsheets().values().update(SPREADSHEET_ID, range, body)
                         .setValueInputOption("USER_ENTERED")
                         .execute();
-        System.out.printf("%d cells updated.", result.getUpdatedCells());
+        log.info("Overall info for the save: updated columns: {}, updated rows: {}, updated cells: {}, updated range: {}",
+                result.getUpdatedColumns(), result.getUpdatedRows(), result.getUpdatedCells(), result.getUpdatedRange());
     }
 
     public int getAmountOfOccupiedColumns() throws GeneralSecurityException, IOException {
