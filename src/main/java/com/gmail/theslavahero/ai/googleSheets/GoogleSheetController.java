@@ -121,7 +121,7 @@ public class GoogleSheetController {
     }
 
     private String numberOfLetter(int number) {
-        String abc = "ABCDEFGHIJKLMOPQRSTUVWXYZ";
+        String abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         return Character.toString(abc.charAt(number - 1));
     }
 

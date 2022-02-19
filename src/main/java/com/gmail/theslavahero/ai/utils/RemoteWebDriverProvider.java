@@ -22,7 +22,7 @@ public class RemoteWebDriverProvider implements AutoCloseable {
         this.options = options;
         remoteUrl1 = null;
         try {
-            remoteUrl1 = new URL("http://localhost:4444");
+            remoteUrl1 = new URL("http://195.88.87.60:4444");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
