@@ -64,7 +64,7 @@ public class GoogleSheetController {
     public List<String> getAllProductNames() throws GeneralSecurityException, IOException {
 
         List<String> productNames = new java.util.ArrayList<>(Collections.emptyList());
-        List<List<Object>> values = readValues("A2:A1000");
+        List<List<Object>> values = readValues("C2:C1000");
 
         for (List row : values) {
             productNames.add(row.get(0).toString());
@@ -126,7 +126,7 @@ public class GoogleSheetController {
     }
 
     private String getCurrentDate() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy.MM.dd/HH:mm:ss");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDateTime now = LocalDateTime.now();
         return dtf.format(now);
     }

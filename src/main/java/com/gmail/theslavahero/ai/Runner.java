@@ -41,7 +41,7 @@ public class Runner {
     private final PriceScraper scraper;
     private final GoogleSheetController sheetController;
 
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 0 10 * * *")
     public void run() {
         try (RemoteWebDriverProvider launcher = new RemoteWebDriverProvider(chromeOptions)) {
             List<String> productNames = sheetController.getAllProductNames();
