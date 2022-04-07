@@ -65,7 +65,7 @@ public class Runner {
                     prices.add(price);
                     number++;
                 }
-                sheetController.writeAllPrices(prices);
+                sheetController.writeAllPrices(prices, range);
             }
 
         } catch (GeneralSecurityException | IOException e) {
