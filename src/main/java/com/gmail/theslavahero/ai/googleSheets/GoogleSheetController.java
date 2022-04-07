@@ -64,7 +64,7 @@ public class GoogleSheetController {
     public List<String> getAllProductNames(String range) throws GeneralSecurityException, IOException {
 
         List<String> productNames = new java.util.ArrayList<>(Collections.emptyList());
-        List<List<Object>> values = readValues("C2:C1000");
+        List<List<Object>> values = readValues(range);
 
         for (List row : values) {
             productNames.add(row.get(0).toString());
@@ -72,7 +72,8 @@ public class GoogleSheetController {
         return productNames;
     }
 
-    public void writeAllPrices(List<String> prices) throws IOException, GeneralSecurityException {
+    public void writeAllPrices(List<String> prices, String sheet) throws IOException, GeneralSecurityException {
+        sheet = sheet.split("!")[0];
         log.info("Writing all prices, {} in total", prices.size());
         List<List<Object>> values = new java.util.ArrayList<>(Collections.emptyList());
 
@@ -87,7 +88,7 @@ public class GoogleSheetController {
         log.info("Amount of detected occupied columns in google sheets: {}", amountOfOccupiedColumns);
         String letter = numberOfLetter(amountOfOccupiedColumns + 1);
         log.info("Writing all data into column with letter: \"{}\"", letter);
-        String range = letter + "1:" + letter + "200";
+        String range = sheet + "!" + letter + "1:" + letter + "200";
         ValueRange body = new ValueRange()
                 .setValues(values);
         UpdateValuesResponse result =

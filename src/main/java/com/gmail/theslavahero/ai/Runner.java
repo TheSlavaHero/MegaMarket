@@ -72,21 +72,4 @@ public class Runner {
             e.printStackTrace();
         }
     }
-
-    public static void saveFile(String pageSource, String filePath) {
-        File file = new File(filePath);
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        try (FileOutputStream out = new FileOutputStream(file)) {
-            out.write(pageSource.getBytes(StandardCharsets.UTF_8));
-        } catch (IOException e) {
-            log.error("FATAL ERROR!");
-        }
-    }
-
 }
