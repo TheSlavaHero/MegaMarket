@@ -30,8 +30,8 @@ import java.util.List;
 @Service
 public class GoogleSheetController {
     private static Sheets sheetsService;
-    private static String APPLICATION_NAME = "My Project 37006";
-    private static String SPREADSHEET_ID = "1N0XO9XH-vqvOt9LkCQcN-ySqxrTeoca5K_cgdQ8EYHE";
+    private static final String APPLICATION_NAME = "My Project 37006";
+    private static final String SPREADSHEET_ID = "1N0XO9XH-vqvOt9LkCQcN-ySqxrTeoca5K_cgdQ8EYHE";
 
     private static Credential authorize() throws IOException, GeneralSecurityException {
         InputStream in = GoogleSheetController.class.getResourceAsStream("/client_secret.json");
@@ -61,7 +61,7 @@ public class GoogleSheetController {
                 .build();
     }
 
-    public List<String> getAllProductNames() throws GeneralSecurityException, IOException {
+    public List<String> getAllProductNames(String range) throws GeneralSecurityException, IOException {
 
         List<String> productNames = new java.util.ArrayList<>(Collections.emptyList());
         List<List<Object>> values = readValues("C2:C1000");

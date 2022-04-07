@@ -17,7 +17,7 @@ public class ScrapingController {
     Runner runner;
     @PostMapping("/start")
     public ResponseEntity<String> startInitialScraping() {
-//        runner.run();
+        runner.run();
         return ResponseEntity.ok("NICE");
     }
 }

@@ -40,30 +40,34 @@ public class Runner {
     private final ChromeOptions chromeOptions;
     private final PriceScraper scraper;
     private final GoogleSheetController sheetController;
+    private static final List<String> RANGE = List.of("Dairy!C2:C997", "Snacks!C2:C997");
 
     @Scheduled(cron = "0 0 10 * * *")
     public void run() {
         try (RemoteWebDriverProvider launcher = new RemoteWebDriverProvider(chromeOptions)) {
-            List<String> productNames = sheetController.getAllProductNames();
-            List<String> prices = new java.util.ArrayList<>(Collections.emptyList());
-            WebDriver webDriver = launcher.getWebDriver();
+            for (String range : RANGE) {
+                List<String> productNames = sheetController.getAllProductNames(range);
+                List<String> prices = new java.util.ArrayList<>(Collections.emptyList());
+                WebDriver webDriver = launcher.getWebDriver();
 
-            webDriver.get("https://megamarket.ua");
-            WebDriverWait wait = new WebDriverWait(webDriver, 20, 1000);
+                webDriver.get("https://megamarket.ua");
+                WebDriverWait wait = new WebDriverWait(webDriver, 20, 1000);
 
-            wait.until(ExpectedConditions.presenceOfElementLocated(SEARCH_BUTTON));
-            WebElement shopButton = findWebElementBy(webDriver, SHOP_BUTTON)
-                    .orElseThrow(() -> ElementNotFoundException.create("Shop button"));
-            clickOnElement(shopButton, new Actions(webDriver), randomLong(300, 500));
+                wait.until(ExpectedConditions.presenceOfElementLocated(SEARCH_BUTTON));
+                WebElement shopButton = findWebElementBy(webDriver, SHOP_BUTTON)
+                        .orElseThrow(() -> ElementNotFoundException.create("Shop button"));
+                clickOnElement(shopButton, new Actions(webDriver), randomLong(300, 500));
 
-            int number = 1;
-            for (String productName : productNames) {
-                log.info("№" + number);
-                String price = scraper.getPrice(webDriver, wait, productName);
-                prices.add(price);
-                number++;
+                int number = 1;
+                for (String productName : productNames) {
+                    log.info("№" + number);
+                    String price = scraper.getPrice(webDriver, wait, productName);
+                    prices.add(price);
+                    number++;
+                }
+                sheetController.writeAllPrices(prices);
             }
-            sheetController.writeAllPrices(prices);
+
         } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
         }
