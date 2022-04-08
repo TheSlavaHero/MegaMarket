@@ -45,10 +45,10 @@ public class Runner {
     @Scheduled(cron = "0 0 10 * * *")
     public void run() {
         try (RemoteWebDriverProvider launcher = new RemoteWebDriverProvider(chromeOptions)) {
+            WebDriver webDriver = launcher.getWebDriver();
             for (String range : RANGE) {
                 List<String> productNames = sheetController.getAllProductNames(range);
                 List<String> prices = new java.util.ArrayList<>(Collections.emptyList());
-                WebDriver webDriver = launcher.getWebDriver();
 
                 webDriver.get("https://megamarket.ua");
                 WebDriverWait wait = new WebDriverWait(webDriver, 20, 1000);
