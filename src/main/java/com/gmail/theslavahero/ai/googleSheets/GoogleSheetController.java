@@ -84,7 +84,7 @@ public class GoogleSheetController {
             List<Object> singletonPriceList = Collections.singletonList(price);
             values.add(singletonPriceList);
         }
-        int amountOfOccupiedColumns = getAmountOfOccupiedColumns();
+        int amountOfOccupiedColumns = getAmountOfOccupiedColumns(sheet);
         log.info("Amount of detected occupied columns in google sheets: {}", amountOfOccupiedColumns);
         String letter = numberOfLetter(amountOfOccupiedColumns + 1);
         log.info("Writing all data into column with letter: \"{}\"", letter);
@@ -99,8 +99,8 @@ public class GoogleSheetController {
                 result.getUpdatedColumns(), result.getUpdatedRows(), result.getUpdatedCells(), result.getUpdatedRange());
     }
 
-    public int getAmountOfOccupiedColumns() throws GeneralSecurityException, IOException {
-        List<List<Object>> values = readValues("A1:Z1");
+    public int getAmountOfOccupiedColumns(String sheet) throws GeneralSecurityException, IOException {
+        List<List<Object>> values = readValues(sheet + "!A1:Z1");
         return values.get(0).size();
     }
 
