@@ -41,6 +41,7 @@ public class RemoteWebDriverProvider implements AutoCloseable {
             log.error("Failed to create webDriver session. Retrying in 10 minutes.");
             try {
                 Thread.sleep(10 * 60000);
+                return getWebDriver();
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }

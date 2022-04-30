@@ -33,7 +33,8 @@ public class PriceScraper {
 //                    .orElseThrow(() -> ElementNotFoundException.create("product was not found"));
             wait.until(ExpectedConditions.presenceOfElementLocated(CHECK_PRODUCT));
             List<WebElement> priceWebElement = webDriver.findElements(PRICE_OF_PRODUCT);
-            Element priceElement = toElement(getElementHtml(priceWebElement.get(0)));
+            if (priceWebElement.size() == 0) throw new ElementNotFoundException("Price of the product was not found");
+            Element priceElement = toElement(getElementHtml(priceWebElement.get(0)));//outofboundsexception
             String price = priceElement.selectFirst("div.price").text();
             return price.substring(0, price.length() - 4);
         } catch (StaleElementReferenceException e) {
